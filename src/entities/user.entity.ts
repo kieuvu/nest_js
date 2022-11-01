@@ -1,31 +1,24 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Unique,
-  BaseEntity,
-} from 'typeorm';
+import { Entity, Column, Unique } from 'typeorm';
+
+import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { EntityAbstract } from 'src/entities/entity.abstract';
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class User extends EntityAbstract {
   @Column({ nullable: false })
   @Unique(['email'])
+  @IsEmail()
+  @IsString()
   email: string;
 
+  @IsNotEmpty()
+  @IsString()
   @Column({ nullable: false })
   username: string;
 
+  @Length(8)
+  @IsNotEmpty()
+  @IsString()
   @Column({ nullable: false })
   password: string;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
 }
